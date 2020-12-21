@@ -100,7 +100,7 @@ def play(strategy0, strategy1, goal=GOAL_SCORE):
     who = 0  # Which player is about to take a turn, 0 (first) or 1 (second)
     score, opponent_score = 0, 0
 
-    while score < 100 and opponent_score <100:
+    while score < goal and opponent_score < goal:
         dice = select_dice(score, opponent_score)
         if who:
             num_rolls = strategy1(opponent_score, score)
