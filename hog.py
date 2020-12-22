@@ -99,8 +99,21 @@ def play(strategy0, strategy1, goal=GOAL_SCORE):
     """
     who = 0  # Which player is about to take a turn, 0 (first) or 1 (second)
     score, opponent_score = 0, 0
-    "*** YOUR CODE HERE ***"
-    return score, opponent_score  # You may wish to change this line.
+
+    while score < goal and opponent_score < goal:
+        dice = select_dice(score, opponent_score)
+        if who:
+            num_rolls = strategy1(opponent_score, score)
+            opponent_score += take_turn(num_rolls, score, dice)
+        else:
+            num_rolls = strategy0(score, opponent_score)
+            score += take_turn(num_rolls, opponent_score, dice)
+        # Swine swap
+        if score == opponent_score * 2 or opponent_score == score * 2:
+            score, opponent_score = opponent_score, score
+        who = other(who)
+
+    return score, opponent_score
 
 #######################
 # Phase 2: Strategies #

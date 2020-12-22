@@ -10,6 +10,7 @@ from ucb import main
 
 import tkinter as tk
 from tkinter import *
+from tkinter import ttk
 import argparse
 
 #############
@@ -144,7 +145,7 @@ class HogGUI(Frame):
         self.roll_entry.bind('<Return>',
                              lambda event: self.roll_button.invoke())
         self.roll_verified = IntVar()
-        self.roll_button = Button(self.roll_frame,
+        self.roll_button = ttk.Button(self.roll_frame,
                                   text='Roll!',
                                   command=self.roll).pack()
 
@@ -171,7 +172,7 @@ class HogGUI(Frame):
 
     def init_restart(self):
         """Creates child widgets associated with restarting the game."""
-        self.restart_button = Button(self, text='Restart',
+        self.restart_button = ttk.Button(self, text='Restart',
                                      command=self.restart).pack()
 
     ##############
