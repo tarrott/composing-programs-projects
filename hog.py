@@ -237,6 +237,9 @@ def run_experiments():
 
 # Strategies
 
+# BASELINE_NUM_ROLLS = 5
+# BACON_MARGIN = 8
+
 def bacon_strategy(score, opponent_score):
     """This strategy rolls 0 dice if that gives at least BACON_MARGIN points,
     and rolls BASELINE_NUM_ROLLS otherwise.
@@ -248,8 +251,17 @@ def bacon_strategy(score, opponent_score):
     >>> bacon_strategy(50, 70)
     0
     """
-    "*** YOUR CODE HERE ***"
-    return 5 # Replace this statement
+
+    if (opponent_score < 7) or (opponent_score == 0):
+        return BASELINE_NUM_ROLLS
+    elif (opponent_score > 7) and (opponent_score < 10):
+        return 0
+    elif opponent_score > 10: 
+        max_digit = max(str(opponent_score)[0],str(opponent_score)[1])
+        if int(max_digit) >= 7:
+            return 0
+        else:
+            return BASELINE_NUM_ROLLS
 
 def swap_strategy(score, opponent_score):
     """This strategy rolls 0 dice when it would result in a beneficial swap and
