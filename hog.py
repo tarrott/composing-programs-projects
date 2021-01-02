@@ -215,22 +215,22 @@ def average_win_rate(strategy, baseline=always_roll(BASELINE_NUM_ROLLS)):
 
 def run_experiments():
     """Run a series of strategy experiments and report results."""
-    if True: # Change to False when done finding max_scoring_num_rolls
+    if False: # Change to False when done finding max_scoring_num_rolls
         six_sided_max = max_scoring_num_rolls(six_sided)
         print('Max scoring num rolls for six-sided dice:', six_sided_max)
         four_sided_max = max_scoring_num_rolls(four_sided)
         print('Max scoring num rolls for four-sided dice:', four_sided_max)
 
-    if False: # Change to True to test always_roll(8)
+    if True: # Change to True to test always_roll(8)
         print('always_roll(8) win rate:', average_win_rate(always_roll(8)))
 
-    if False: # Change to True to test bacon_strategy
+    if True: # Change to True to test bacon_strategy
         print('bacon_strategy win rate:', average_win_rate(bacon_strategy))
 
-    if False: # Change to True to test swap_strategy
+    if True: # Change to True to test swap_strategy
         print('swap_strategy win rate:', average_win_rate(swap_strategy))
 
-    if False: # Change to True to test final_strategy
+    if True: # Change to True to test final_strategy
         print('final_strategy win rate:', average_win_rate(final_strategy))
 
     "*** You may add additional experiments as you wish ***"
@@ -273,8 +273,18 @@ def swap_strategy(score, opponent_score):
     >>> swap_strategy(12, 12) # Baseline
     5
     """
-    "*** YOUR CODE HERE ***"
-    return 5 # Replace this statement
+    try:
+        max_digit = max(str(opponent_score)[0],str(opponent_score)[1])
+    except IndexError: 
+        max_digit = str(opponent_score)
+    free_bacon = int(max_digit) + 1
+    beneficial_swap = (score + free_bacon) == (opponent_score / 2)
+    harmful_swap = (score + free_bacon) == (opponent_score * 2)
+    if beneficial_swap or (free_bacon >= BACON_MARGIN and not harmful_swap):
+        return 0
+    else:
+        return BASELINE_NUM_ROLLS
+
 
 def final_strategy(score, opponent_score):
     """Write a brief description of your final strategy.
