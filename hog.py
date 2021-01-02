@@ -248,8 +248,15 @@ def bacon_strategy(score, opponent_score):
     >>> bacon_strategy(50, 70)
     0
     """
-    "*** YOUR CODE HERE ***"
-    return 5 # Replace this statement
+    try:
+        max_digit = max(str(opponent_score)[0],str(opponent_score)[1])
+    except IndexError: 
+        max_digit = str(opponent_score)
+    if int(max_digit) + 1 >= BACON_MARGIN:
+        return 0
+    else:
+        return BASELINE_NUM_ROLLS
+
 
 def swap_strategy(score, opponent_score):
     """This strategy rolls 0 dice when it would result in a beneficial swap and
