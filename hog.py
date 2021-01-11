@@ -291,8 +291,23 @@ def final_strategy(score, opponent_score):
 
     *** YOUR DESCRIPTION HERE ***
     """
-    "*** YOUR CODE HERE ***"
-    return 5 # Replace this statement
+    try:
+        max_digit = max(str(opponent_score)[0],str(opponent_score)[1])
+    except IndexError: 
+        max_digit = str(opponent_score)
+    free_bacon = int(max_digit) + 1
+    sum_all = score + free_bacon + opponent_score
+    beneficial_swap = (score + free_bacon) == (opponent_score / 2)
+    harmful_swap = (score + free_bacon) == (opponent_score * 2)
+    if sum_all % 7 == 0:
+        return 0
+    elif beneficial_swap or (free_bacon >= BACON_MARGIN and not harmful_swap):
+        return 0
+    max_rolls = 10
+    if score > opponent_score:
+        return BASELINE_NUM_ROLLS 
+    else:
+        return max_rolls 
 
 
 ##########################
