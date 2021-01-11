@@ -221,13 +221,13 @@ def run_experiments():
         four_sided_max = max_scoring_num_rolls(four_sided)
         print('Max scoring num rolls for four-sided dice:', four_sided_max)
 
-    if True: # Change to True to test always_roll(8)
+    if False: # Change to True to test always_roll(8)
         print('always_roll(8) win rate:', average_win_rate(always_roll(8)))
 
-    if True: # Change to True to test bacon_strategy
+    if False: # Change to True to test bacon_strategy
         print('bacon_strategy win rate:', average_win_rate(bacon_strategy))
 
-    if True: # Change to True to test swap_strategy
+    if False: # Change to True to test swap_strategy
         print('swap_strategy win rate:', average_win_rate(swap_strategy))
 
     if True: # Change to True to test final_strategy
@@ -296,18 +296,19 @@ def final_strategy(score, opponent_score):
     except IndexError: 
         max_digit = str(opponent_score)
     free_bacon = int(max_digit) + 1
-    sum_all = score + free_bacon + opponent_score
     beneficial_swap = (score + free_bacon) == (opponent_score / 2)
     harmful_swap = (score + free_bacon) == (opponent_score * 2)
-    if sum_all % 7 == 0:
-        return 0
-    elif beneficial_swap or (free_bacon >= BACON_MARGIN and not harmful_swap):
-        return 0
-    max_rolls = 10
-    if score > opponent_score:
-        return BASELINE_NUM_ROLLS 
+    four_sided_roll = (score + opponent_score) % 7 == 0
+    hog_wild = (score + free_bacon + opponent_score) % 7 == 0
+    if not harmful_swap:
+        if free_bacon >= BACON_MARGIN or beneficial_swap or hog_wild:
+            return 0
+    if (score - opponent_score > 40) or four_sided_roll:
+        return BASELINE_NUM_ROLLS - 2
+    elif opponent_score - score > 40:
+        return BASELINE_NUM_ROLLS + 2
     else:
-        return max_rolls 
+        return BASELINE_NUM_ROLLS
 
 
 ##########################
